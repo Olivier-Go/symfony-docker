@@ -1,7 +1,8 @@
 ---
 services:
   php:
-    image: ${IMAGES_PREFIX:-}app-php
+    image: ${COMPOSE_PROJECT_NAME}-frankenphp
+    container_name: frankenphp
     restart: unless-stopped
     environment:
       SERVER_NAME: ${SERVER_NAME:-localhost}, php:80
@@ -20,6 +21,7 @@ services:
     volumes:
       - caddy_data:/data
       - caddy_config:/config
+      - app:/app/var
     ports:
       - name: http
         target: 80
@@ -41,5 +43,6 @@ services:
 volumes:
   caddy_data:
   caddy_config:
+  app:
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
