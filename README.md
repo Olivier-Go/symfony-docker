@@ -28,21 +28,13 @@ docker compose exec php composer require --dev symfony/profiler-pack
 ```sh
 docker compose -f compose.yaml -f compose.prod.yaml build --pull --no-cache
 ```
-
-## Features
-
-- Development and production ready
-- Just 1 service by default
-- Blazing-fast performance thanks to [the worker mode of FrankenPHP](https://frankenphp.dev/docs/worker/)
-- [Installation of extra Docker Compose services](docs/extra-services.md) with Symfony Flex
-- Automatic HTTPS (in dev and prod)
-- HTTP/3 and [Early Hints](https://symfony.com/blog/new-in-symfony-6-3-early-hints) support
-- Real-time messaging thanks to a built-in [Mercure hub](https://symfony.com/doc/current/mercure.html)
-- [Vulcain](https://vulcain.rocks) support
-- Native [XDebug](docs/xdebug.md) integration
-- Super-readable configuration
-
-**Enjoy!**
+#### Start container
+```sh
+SERVER_NAME=your-domain-name.example.com \
+APP_SECRET=ChangeMe \
+CADDY_MERCURE_JWT_SECRET=ChangeThisMercureHubJWTSecretKey \
+docker compose -f compose.yaml -f compose.prod.yaml up --wait
+```
 
 ## Docs
 
