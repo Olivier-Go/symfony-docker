@@ -1,14 +1,16 @@
+---
 # Production environment override
 services:
   php:
+    image: ${COMPOSE_PROJECT_NAME}-frankenphp-prod
     build:
-      context: .
+      context: ./app
+      dockerfile: Dockerfile
       target: frankenphp_prod
     environment:
-      SERVER_NAME: :80
-      DEFAULT_URI: http://${SERVER_NAME:-localhost}:${HTTP_PORT:-80}
+      SERVER_NAME: ${SERVER_NAME:-localhost}, php:80
       APP_SECRET: ${APP_SECRET}
+      DEFAULT_URI: https://${SERVER_NAME:-localhost}:${HTTPS_PORT:-443}
+      DATABASE_URL: mysql://${MYSQL_USER:-app}:${MYSQL_PASSWORD:-!ChangeMe!}@mysql:3306/${MYSQL_DATABASE:-app}?serverVersion=${MYSQL_VERSION:-8.4.7}&charset=${MYSQL_CHARSET:-utf8mb4}
       MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
       MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET}
-    volumes:
-      - ./:/app

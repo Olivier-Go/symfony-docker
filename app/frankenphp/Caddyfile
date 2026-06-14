@@ -5,11 +5,12 @@
 
 	frankenphp {
 		{$FRANKENPHP_CONFIG}
+	}
 
-		worker {
-			file ./public/index.php
-			{$FRANKENPHP_WORKER_CONFIG}
-		}
+	metrics
+
+	admin :2019 {
+		origins "{$CADDY_ADMIN_ORIGINS}"
 	}
 }
 
@@ -56,7 +57,14 @@
 	rewrite @phpRoute index.php
 
 	@frontController path index.php
-	php @frontController
+	php @frontController {
+		{$FRANKENPHP_SITE_CONFIG}
+
+		worker {
+			file ./public/index.php
+			{$FRANKENPHP_WORKER_CONFIG}
+		}
+	}
 
 	file_server {
 		hide *.php
